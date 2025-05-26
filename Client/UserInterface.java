@@ -1,7 +1,15 @@
 /* ---------------------- client/UserInterface.java ---------------------- */
-package Client;
+package client;
 
+/**
+ * 사용자 인터페이스 클래스
+ * - BOARD 메시지를 화면에 출력
+ * - 문자열 파싱 기능 제공
+ */
 public class UserInterface {
+    /**
+     * 2D int 보드를 X/O/- 형태로 렌더링
+     */
     public void renderBoard(int[][] board) {
         System.out.println("Current board:");
         for (int i = 0; i < 3; i++) {
@@ -13,9 +21,11 @@ public class UserInterface {
         }
     }
 
+    /**
+     * "BOARD r0c0,r0c1,r0c2;..." 형식을  int[][]로 변환
+     */
     public int[][] parseBoard(String msg) {
-        // Expect: BOARD r0c0,r0c1,...;...;...
-        String data = msg.substring("BOARD ".length());
+        String data = msg.substring(MessageHandler.BOARD.length() + 1);
         String[] rows = data.split(";");
         int[][] board = new int[3][3];
         for (int i = 0; i < 3; i++) {

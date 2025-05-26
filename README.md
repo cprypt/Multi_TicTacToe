@@ -1,13 +1,13 @@
 # Multi_TicTacToe
 
-## Directory structure:
+## 프로젝트 구조:
 - Client
-    - TTTClient.java
-    - SocketClient.java
-    - UserInterface.java
-    - InputHandler.java
+    - TTTClient.java (클라이언트 메인 클래스, 서버와 상호작용)
+    - SocketClient.java (서버 소켓 연결 및 메시지 송수신 구현)
+    - UserInterface.java (보드 렌더링 및 메시지 파싱)
+    - InputHandler.java (사용자 입력 처리 및 검증)
 - Server
-    - TTTServer.java
-    - SocketManager.java
-    - GameLogic.java
-    - MessageHandler.java
+    - TTTServer.java (서버 메인 클래스, 게임 흐름 제어)
+    - SocketManager.java (클라이언트 연결 및 메시지 송수신 관리)
+    - GameLogic.java (틱택토 게임 로직(판 검사, 승패 판단))
+    - MessageHandler.java (메시지 포맷 정의 및 파싱)

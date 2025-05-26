@@ -1,9 +1,13 @@
-/* ---------------------- Client/SocketClient.java ---------------------- */
-package Client;
+/* ---------------------- client/SocketClient.java ---------------------- */
+package client;
 
 import java.io.*;
 import java.net.*;
 
+/**
+ * 서버와의 소켓 연결 클래스
+ * - PrintWriter/BufferedReader로 메시지 송수신
+ */
 public class SocketClient {
     private Socket s;
     private BufferedReader br;
@@ -15,15 +19,7 @@ public class SocketClient {
         pw = new PrintWriter(s.getOutputStream(), true);
     }
 
-    public void sendMessage(String msg) {
-        pw.println(msg);
-    }
-
-    public String receiveMessage() throws IOException {
-        return br.readLine();
-    }
-
-    public void disconnect() throws IOException {
-        s.close();
-    }
+    public void sendMessage(String msg) { pw.println(msg); }
+    public String receiveMessage() throws IOException { return br.readLine(); }
+    public void disconnect() throws IOException { s.close(); }
 }
