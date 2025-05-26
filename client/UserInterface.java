@@ -29,8 +29,8 @@ public class UserInterface {
         String[] rows = data.split(";");
         int[][] board = new int[3][3];
         for (int i = 0; i < 3; i++) {
-            String[] cols = rows[i].split(",");
-            for (int j = 0; j < 3; j++) board[i][j] = Integer.parseInt(cols[j]);
+            String[] cols = rows[i].trim().split(",");
+            for (int j = 0; j < 3; j++) board[i][j] = Integer.parseInt(cols[j].trim());
         }
         return board;
     }
