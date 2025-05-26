@@ -1,6 +1,6 @@
 # Multi_TicTacToe
 
-## 프로젝트 구조:
+## 프로젝트 구조
 - Client
     - TTTClient.java (클라이언트 메인 클래스, 서버와 상호작용)
     - SocketClient.java (서버 소켓 연결 및 메시지 송수신 구현)
@@ -11,3 +11,13 @@
     - SocketManager.java (클라이언트 연결 및 메시지 송수신 관리)
     - GameLogic.java (틱택토 게임 로직(판 검사, 승패 판단))
     - MessageHandler.java (메시지 포맷 정의 및 파싱)
+
+## 빌드 방법
+1. 프로젝트 클론
+    - git clone https://github.com/cprypt/Multi_TicTacToe.git
+2. 자바 소스 코드 컴파일
+    - mkdir -p out
+    - javac -d out server/*.java client/*.java
+3. 서버/클라이언트 실행
+    - java -cp out; server.TTTServer [포트번호]
+    - java -cp out; client.TTTClient [서버호스트] [포트번호]
