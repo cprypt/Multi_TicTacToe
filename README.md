@@ -13,11 +13,14 @@
     - MessageHandler.java (메시지 포맷 정의 및 파싱)
 
 ## 빌드 방법
-1. 프로젝트 클론
+0. 필요 종속성
+    - Java
+    - Git
+2. 프로젝트 클론
     - git clone https://github.com/cprypt/Multi_TicTacToe.git
-2. 자바 소스 코드 컴파일
+3. 자바 소스 코드 컴파일
     - mkdir -p out
     - javac -d out server/*.java client/*.java
-3. 서버/클라이언트 실행
+4. 서버/클라이언트 실행
     - java -cp out; server.TTTServer [포트번호]
     - java -cp out; client.TTTClient [서버호스트] [포트번호]
