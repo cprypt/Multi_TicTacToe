@@ -44,19 +44,19 @@ public class TTTServer {
 
             // 4) 잘못된 이동이면 즉시 패배 처리
             if (!gl.move(move[0], move[1], currentPlayer)) {
-                sm.sendTo(currentPlayer, mh.formatResult("Invalid move, you lose."));
+                sm.sendTo(currentPlayer, mh.formatResult("중복 위치로 인한 패배"));
                 break;
             }
             // 5) 승자 검사
             if (gl.checkWinner() == currentPlayer) {
                 sm.broadcast(mh.formatBoard(gl.getBoard()));
-                sm.broadcast(mh.formatResult("Player " + currentPlayer + " wins!"));
+                sm.broadcast(mh.formatResult("클라이언트 " + currentPlayer + " 승리"));
                 break;
             }
             // 6) 무승부 검사
             if (gl.isDraw()) {
                 sm.broadcast(mh.formatBoard(gl.getBoard()));
-                sm.broadcast(mh.formatResult("Draw"));
+                sm.broadcast(mh.formatResult("무승부"));
                 break;
             }
             // 7) 다음 플레이어로 교체
@@ -72,7 +72,7 @@ public class TTTServer {
     public static void main(String[] args) throws Exception {
         int port = 5000;
         if (args.length >= 1) port = Integer.parseInt(args[0]);
-        System.out.println("Starting TicTacToe server on port " + port);
+        System.out.println("멀티플레이어 틱택토 서버 실행 중: 포트 " + port);
         new TTTServer(port);
     }
 }

@@ -11,7 +11,7 @@ public class UserInterface {
      * 2D int 보드를 X/O/- 형태로 렌더링
      */
     public void renderBoard(int[][] board) {
-        System.out.println("Current board:");
+        System.out.println("현재 보드 상태:");
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 char c = board[i][j] == 1 ? 'X' : board[i][j] == 2 ? 'O' : '-';

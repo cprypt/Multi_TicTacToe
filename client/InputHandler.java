@@ -15,11 +15,11 @@ public class InputHandler {
      */
     public int[] move() {
         while (true) {
-            System.out.print("Enter your move (row[0-2] col[0-2]): ");
+            System.out.print("위치 선택 (행(0/1/2) 열(0/1/2)): ");
             int r = sc.nextInt();
             int c = sc.nextInt();
             if (validate(r, c)) return new int[]{r, c};
-            System.out.println("Invalid move, try again.");
+            System.out.println("잘못된 위치");
         }
     }
 

@@ -27,13 +27,13 @@ public class SocketManager {
      * 두 클라이언트 연결 수락 및 스트림 초기화
      */
     public void start() throws IOException {
-        System.out.println("Waiting for 2 clients...");
+        System.out.println("클라이언트 1, 2 접속 대기 중");
         for (int i = 1; i <= 2; i++) {
             Socket s = ss.accept();
             clients.add(s);
             readers.put(i, new BufferedReader(new InputStreamReader(s.getInputStream())));
             writers.put(i, new PrintWriter(s.getOutputStream(), true));
-            System.out.println("Client " + i + " connected.");
+            System.out.println("클라이언트 " + i + " 연결됨");
         }
     }
 
