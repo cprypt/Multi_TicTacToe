@@ -25,6 +25,7 @@
     - java -cp out; server.TTTServer [포트번호]
     - java -cp out; client.TTTClient [서버호스트] [포트번호]
 
-## 추후 업데이트
-1. GUI 업데이트
-2. 싱글 플레이 업데이트
+## 기능 업데이트 내역
+1. CLI 구현
+2. GUI 구현
+3. 싱글 플레이 구현
