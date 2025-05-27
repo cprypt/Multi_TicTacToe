@@ -24,3 +24,7 @@
 4. 서버/클라이언트 실행
     - java -cp out; server.TTTServer [포트번호]
     - java -cp out; client.TTTClient [서버호스트] [포트번호]
+
+## 추후 업데이트
+1. GUI 업데이트
+2. 싱글 플레이 업데이트
