@@ -20,7 +20,7 @@
     - git clone https://github.com/cprypt/Multi_TicTacToe.git
 3. 자바 소스 코드 컴파일
     - mkdir -p out
-    - javac -d out server/*.java client/*.java
+    - javac -d out server/\*.java client/\*.java
 4. 서버/클라이언트 실행
     - java -cp out; server.TTTServer [포트번호]
     - java -cp out; client.TTTClient [서버호스트] [포트번호]
