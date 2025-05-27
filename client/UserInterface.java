@@ -1,6 +1,8 @@
 /* ---------------------- client/UserInterface.java ---------------------- */
 package client;
 
+import server.MessageHandler;
+
 /**
  * 사용자 인터페이스 클래스
  * - BOARD 메시지를 화면에 출력
