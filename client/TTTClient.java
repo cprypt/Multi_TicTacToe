@@ -1,6 +1,8 @@
 /* ---------------------- client/TTTClient.java ---------------------- */
 package client;
 
+import server.MessageHandler;
+
 /**
  * 클라이언트 메인 클래스
  * - 서버 연결
