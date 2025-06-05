@@ -25,16 +25,16 @@ public class MessageHandler {
      * 보드 상태를 문자열로 포맷: "BOARD r0c0,r0c1,r0c2;r1c0,...;r2c2"
      */
     public String formatBoard(int[][] board) {
-        StringBuilder sb = new StringBuilder(BOARD);
+        StringBuilder stringBulider = new StringBuilder(BOARD);
         for (int i = 0; i < 3; i++) {
-            sb.append(" ");
+            stringBulider.append(" ");
             for (int j = 0; j < 3; j++) {
-                sb.append(board[i][j]);
-                if (j < 2) sb.append(",");
+                stringBulider.append(board[i][j]);
+                if (j < 2) stringBulider.append(",");
             }
-            if (i < 2) sb.append(";");
+            if (i < 2) stringBulider.append(";");
         }
-        return sb.toString();
+        return stringBulider.toString();
     }
 
     /**

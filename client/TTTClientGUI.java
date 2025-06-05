@@ -10,7 +10,7 @@ import java.io.IOException;
  * Swing 기반 GUI 클라이언트 (중복 클릭 방지 로직 적용판)
  */
 public class TTTClientGUI extends JFrame {
-    private SocketClient sc;
+    private SocketClient socketClient;
 
     // 상단에 내 플레이어 번호를 표시(예: You are Player 1)
     private JLabel playerLabel = new JLabel("클라이언트 ...", SwingConstants.CENTER);
@@ -29,7 +29,7 @@ public class TTTClientGUI extends JFrame {
 
     public TTTClientGUI(String host, int port) throws Exception {
         // 1) 네트워크 소켓 연결
-        sc = new SocketClient(host, port);
+        socketClient = new SocketClient(host, port);
 
         // 2) 윈도우 기본 설정
         setTitle("멀티플레이어 틱택토");
@@ -74,7 +74,7 @@ public class TTTClientGUI extends JFrame {
     private void receiveLoop() {
         try {
             while (true) {
-                String msg = sc.receiveMessage();
+                String msg = socketClient.receiveMessage();
                 if (msg == null) break;
 
                 // ① 서버가 보낸 “ID {번호}” 메시지 처리
@@ -132,7 +132,7 @@ public class TTTClientGUI extends JFrame {
         setBoardEnabled(false);
         statusLabel.setText("상대방 차례 대기...");
 
-        sc.sendMessage(MessageHandler.MOVE + " " + row + "," + col);
+        socketClient.sendMessage(MessageHandler.MOVE + " " + row + "," + col);
     }
 
     /**

@@ -9,17 +9,17 @@ import java.net.*;
  * - PrintWriter/BufferedReader로 메시지 송수신
  */
 public class SocketClient {
-    private Socket s;
-    private BufferedReader br;
-    private PrintWriter pw;
+    private Socket socket;
+    private BufferedReader bufferedReader;
+    private PrintWriter printWriter;
 
     public SocketClient(String host, int port) throws IOException {
-        s = new Socket(host, port);
-        br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        pw = new PrintWriter(s.getOutputStream(), true);
+        socket = new Socket(host, port);
+        bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        printWriter = new PrintWriter(socket.getOutputStream(), true);
     }
 
-    public void sendMessage(String msg) { pw.println(msg); }
-    public String receiveMessage() throws IOException { return br.readLine(); }
-    public void disconnect() throws IOException { s.close(); }
+    public void sendMessage(String msg) { printWriter.println(msg); }
+    public String receiveMessage() throws IOException { return bufferedReader.readLine(); }
+    public void disconnect() throws IOException { socket.close(); }
 }
