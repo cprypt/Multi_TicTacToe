@@ -20,7 +20,12 @@ public class TTTServer {
         gl = new GameLogic();
         mh = new MessageHandler();
         sm = new SocketManager(port);
+
         sm.start();           // 두 클라이언트 연결 대기
+
+        sm.sendTo(1, "ID 1");
+        sm.sendTo(2, "ID 2");
+
         runGame();            // 게임 진행
     }
 
