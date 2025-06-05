@@ -22,11 +22,11 @@
     - mkdir -p out
     - javac -d out server/\*.java client/\*.java
 4. 서버/클라이언트 실행
-    - java -cp out; server.TTTServer [포트번호]
-    - java -cp out; client.TTTClient [서버호스트] [포트번호]
+    - java -cp out server.TTTServer [포트번호]
+    - java -cp out client.TTTClient [서버호스트] [포트번호]
 
 ## 업데이트 내역
 1. 서버/클라이언트 -> CLI 구현 (완)
-2. 서버 -> 분할 세션 구현
-3. 클라이언트 -> GUI 구현
+2. 클라이언트 -> GUI 구현 (완)
+3. 서버 -> 분할 세션 구현
 4. 서버/클라이언트 -> 싱글 플레이 구현
