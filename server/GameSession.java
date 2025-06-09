@@ -90,7 +90,7 @@ public class GameSession implements Runnable {
             ex.printStackTrace();
         } finally {
             // 세션 종료 알림
-            console.endSession(sessionId);
+            console.removeSession(sessionId);
             // 리소스 정리
             try {
                 reader1.close(); writer1.close(); client1.close();

@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * 서버 관리 GUI 콘솔
+ * 서버 관리용 GUI 콘솔
  * 대기 클라이언트 목록
  * 활성 세션 목록
  */
@@ -17,40 +17,47 @@ public class ServerConsole extends JFrame {
     private ConcurrentMap<Integer, String> sessionEntries = new ConcurrentHashMap<>();
 
     public ServerConsole() {
-        super("멀티플레이어 틱택토 서버 관리 콘솔");
+        super("TicTacToe Server Console");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 300);
-        setLayout(new GridLayout(1, 2));
+        setSize(1200, 900);
+        setLayout(new GridLayout(1, 2, 10, 0));
 
-        // 왼쪽: 대기 클라이언트
+        // ▶ 대기 클라이언트 패널
+        JPanel waitingPanel = new JPanel(new BorderLayout());
         JList<String> waitingList = new JList<>(waitingModel);
-        add(new JScrollPane(waitingList), BorderLayout.WEST);
-        JLabel waitLabel = new JLabel("대기 클라이언트", SwingConstants.CENTER);
-        waitLabel.setFont(waitLabel.getFont().deriveFont(Font.BOLD));
-        add(waitLabel, BorderLayout.NORTH);
+        waitingPanel.add(new JScrollPane(waitingList), BorderLayout.CENTER);
+        JLabel waitLabel = new JLabel("Waiting Clients", SwingConstants.CENTER);
+        waitLabel.setFont(waitLabel.getFont().deriveFont(Font.BOLD, 14f));
+        waitingPanel.add(waitLabel, BorderLayout.SOUTH);
 
-        // 오른쪽: 활성 세션
+        // ▶ 활성 세션 패널
+        JPanel sessionPanel = new JPanel(new BorderLayout());
         JList<String> sessionList = new JList<>(sessionsModel);
-        add(new JScrollPane(sessionList), BorderLayout.EAST);
-        JLabel sessionLabel = new JLabel("활성 세션", SwingConstants.CENTER);
-        sessionLabel.setFont(sessionLabel.getFont().deriveFont(Font.BOLD));
-        add(sessionLabel, BorderLayout.SOUTH);
+        sessionPanel.add(new JScrollPane(sessionList), BorderLayout.CENTER);
+        JLabel sessionLabel = new JLabel("Active Sessions", SwingConstants.CENTER);
+        sessionLabel.setFont(sessionLabel.getFont().deriveFont(Font.BOLD, 14f));
+        sessionPanel.add(sessionLabel, BorderLayout.SOUTH);
+
+        add(waitingPanel);
+        add(sessionPanel);
 
         setVisible(true);
     }
 
     /** 대기 클라이언트 추가 */
     public void addWaiting(Socket s) {
+        String key = s.getRemoteSocketAddress().toString();
         SwingUtilities.invokeLater(() ->
-            waitingModel.addElement(s.getRemoteSocketAddress().toString())
+            waitingModel.addElement(key)
         );
     }
 
-    /** 대기 클라이언트 제거 */
+    /** 대기 클라이언트 완전 제거 */
     public void removeWaiting(Socket s) {
-        SwingUtilities.invokeLater(() -> {
-            waitingModel.removeElement(s.getRemoteSocketAddress().toString());
-        });
+        String key = s.getRemoteSocketAddress().toString();
+        SwingUtilities.invokeLater(() ->
+            waitingModel.removeElement(key)
+        );
     }
 
     /** 세션 추가 */
@@ -64,15 +71,13 @@ public class ServerConsole extends JFrame {
         );
     }
 
-    /** 세션 종료 표시 */
-    public void endSession(int sessionId) {
-        String entry = sessionEntries.get(sessionId);
-        if (entry == null) return;
-        String ended = entry + " (종료)";
-        sessionEntries.put(sessionId, ended);
-        SwingUtilities.invokeLater(() -> {
-            sessionsModel.removeElement(entry);
-            sessionsModel.addElement(ended);
-        });
+    /** 활성 세션 완전 제거 */
+    public void removeSession(int sessionId) {
+        String entry = sessionEntries.remove(sessionId);
+        if (entry != null) {
+            SwingUtilities.invokeLater(() ->
+                sessionsModel.removeElement(entry)
+            );
+        }
     }
 }
