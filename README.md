@@ -6,7 +6,7 @@
     - SocketClient.java (클라이언트-서버 소켓 통신)
 - Server
     - TTTServer.java (서버, 멀티 세션 기반)
-    - GameSession.java (세션 관리)
+    - GameSession.java (클라이언트-서버 소켓 통신)
     - GameLogic.java (틱택토 게임 로직(판 검사, 승패 판단))
     - MessageHandler.java (프로토콜 정의 및 메시지 파싱)
 
