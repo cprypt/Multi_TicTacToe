@@ -21,7 +21,10 @@
 2. 자바 소스 코드 컴파일
     - mkdir -p out
     - javac -d out server/\*.java client/\*.java
-3. 서버/클라이언트 실행
+3. Jar 파일 생성
+    - jar cvfm server.jar server-manifest.txt -C out server
+    - jar cvfm client.jar client-manifest.txt -C out client
+4. 서버/클라이언트 터미널 환경 실행
     - java -cp out server.TTTServer [포트번호]
     - java -cp out client.TTTClient [서버호스트] [포트번호]
 

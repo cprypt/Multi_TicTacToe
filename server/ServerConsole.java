@@ -17,7 +17,7 @@ public class ServerConsole extends JFrame {
     private ConcurrentMap<Integer, String> sessionEntries = new ConcurrentHashMap<>();
 
     public ServerConsole() {
-        super("TicTacToe Server Console");
+        super("멀티플레이어 틱택토 서버 관리 콘솔");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1200, 900);
         setLayout(new GridLayout(1, 2, 10, 0));
@@ -26,7 +26,7 @@ public class ServerConsole extends JFrame {
         JPanel waitingPanel = new JPanel(new BorderLayout());
         JList<String> waitingList = new JList<>(waitingModel);
         waitingPanel.add(new JScrollPane(waitingList), BorderLayout.CENTER);
-        JLabel waitLabel = new JLabel("Waiting Clients", SwingConstants.CENTER);
+        JLabel waitLabel = new JLabel("대기 클라이언트", SwingConstants.CENTER);
         waitLabel.setFont(waitLabel.getFont().deriveFont(Font.BOLD, 14f));
         waitingPanel.add(waitLabel, BorderLayout.SOUTH);
 
@@ -34,7 +34,7 @@ public class ServerConsole extends JFrame {
         JPanel sessionPanel = new JPanel(new BorderLayout());
         JList<String> sessionList = new JList<>(sessionsModel);
         sessionPanel.add(new JScrollPane(sessionList), BorderLayout.CENTER);
-        JLabel sessionLabel = new JLabel("Active Sessions", SwingConstants.CENTER);
+        JLabel sessionLabel = new JLabel("활성 세션", SwingConstants.CENTER);
         sessionLabel.setFont(sessionLabel.getFont().deriveFont(Font.BOLD, 14f));
         sessionPanel.add(sessionLabel, BorderLayout.SOUTH);
 
