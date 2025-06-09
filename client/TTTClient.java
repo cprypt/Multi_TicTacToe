@@ -3,41 +3,40 @@ package client;
 import server.MessageHandler;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 
 /**
- * Swing 기반 GUI 클라이언트 (중복 클릭 방지 로직 적용판)
+ * Swing GUI 기반 클라이언트
  */
-public class TTTClientGUI extends JFrame {
+public class TTTClient extends JFrame {
     private SocketClient socketClient;
 
-    // 상단에 내 플레이어 번호를 표시(예: You are Player 1)
+    // 상단: 플레이어 번호 표시 (클라이언트 1 / 2)
     private JLabel playerLabel = new JLabel("클라이언트 ...", SwingConstants.CENTER);
 
     // 3x3 게임판을 표현하는 버튼
     private JButton[][] buttons = new JButton[3][3];
 
-    // 하단 상태 표시(“당신 차례입니다” 등)
+    // 하단: 상태 표시 (연결 상태 / 차례 상태 표시)
     private JLabel statusLabel = new JLabel("연결 중...");
 
-    // 서버로부터 할당받은 플레이어 번호 (1 또는 2)
+    // 서버로부터 할당받은 플레이어 번호 (1 / 2)
     private int myPlayerNumber = 0;
 
     // 내 턴인지 여부
     private volatile boolean myTurn = false;
 
-    public TTTClientGUI(String host, int port) throws Exception {
+    public TTTClient(String host, int port) throws Exception {
         // 1) 네트워크 소켓 연결
         socketClient = new SocketClient(host, port);
 
         // 2) 윈도우 기본 설정
         setTitle("멀티플레이어 틱택토");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(320, 420);              // 레이블 + 판 + 상태 바 영역 확보
+        setSize(300, 400);              // 레이블 + 판 + 상태 바 영역 확보
         setLayout(new BorderLayout());
 
-        // 3) 상단: "You are Player X" 레이블
+        // 3) 상단: "클라이언트 X" 레이블
         playerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
         add(playerLabel, BorderLayout.NORTH);
 
@@ -77,7 +76,7 @@ public class TTTClientGUI extends JFrame {
                 String msg = socketClient.receiveMessage();
                 if (msg == null) break;
 
-                // ① 서버가 보낸 “ID {번호}” 메시지 처리
+                // ① 서버가 보낸 ID 메시지 처리 → 클라이언트 번호 설정
                 if (msg.startsWith("ID ")) {
                     String[] tokens = msg.split(" ");
                     myPlayerNumber = Integer.parseInt(tokens[1].trim());
@@ -88,19 +87,19 @@ public class TTTClientGUI extends JFrame {
                 // ② 서버가 보낸 BOARD 메시지 처리 → 즉시 updateBoard로 화면 갱신
                 else if (msg.startsWith(MessageHandler.BOARD)) {
                     int[][] board = parseBoard(msg);
-                    // Swing 스레드에서 버튼 텍스트를 바꿔주고, “빈 칸 아닌 버튼은 무조건 disabled” 처리
+                    // Swing 스레드에서 버튼 텍스트를 바꿔주고, 빈 칸 아닌 버튼은 무조건 disabled 처리
                     SwingUtilities.invokeLater(() -> updateBoard(board));
                 }
-                // ③ 서버가 보낸 MOVE 메시지: 지금부터 “내 턴”
+                // ③ 서버가 보낸 MOVE 메시지 처리 → 내 턴
                 else if (msg.equals(MessageHandler.MOVE)) {
                     myTurn = true;
-                    // Swing 스레드에서 “빈 칸만 enable” 처리 & 상태 메시지 바꾸기
+                    // Swing 스레드에서 빈 칸만 enable 처리 & 상태 메시지 바꾸기
                     SwingUtilities.invokeLater(() -> {
                         setBoardEnabled(true);
                         statusLabel.setText("당신 차례입니다");
                     });
                 }
-                // ④ 서버가 보낸 RESULT 메시지: 게임 종료
+                // ④ 서버가 보낸 RESULT 메시지 처리 → 게임 종료
                 else if (msg.startsWith(MessageHandler.RESULT)) {
                     String resultText = msg.substring((MessageHandler.RESULT + " ").length());
                     SwingUtilities.invokeLater(() -> {
@@ -172,7 +171,7 @@ public class TTTClientGUI extends JFrame {
             }
         }
 
-        // 만약 이미 “내 턴 상태”였다면, 빈 칸만 다시 enable 처리
+        // 만약 이미 내 턴 상태였다면, 빈 칸만 다시 enable 처리
         if (myTurn) {
             setBoardEnabled(true);
         }
@@ -203,7 +202,7 @@ public class TTTClientGUI extends JFrame {
                 port = Integer.parseInt(args[1]);
             }
             try {
-                new TTTClientGUI(host, port);
+                new TTTClient(host, port);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(

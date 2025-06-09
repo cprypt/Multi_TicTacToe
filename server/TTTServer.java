@@ -6,25 +6,25 @@ import java.net.Socket;
 
 /**
  * 다중 세션을 지원하는 TicTacToe 서버
- * - 하나의 ServerSocket 으로 계속해서 접속 대기
- * - 클라이언트가 접속할 때마다 “대기 큐”를 검사
- *   • 대기 큐가 비어 있으면 → 해당 소켓을 대기 큐에 넣고 “짝을 기다리는 중” 상태
- *   • 대기 큐에 이미 대기 소켓이 있으면 → 두 개를 꺼내서 새로운 GameSession 쓰레드 시작
+ * 하나의 ServerSocket 으로 계속해서 접속 대기
+ * 클라이언트가 접속할 때마다 대기 큐를 검사
+ * 대기 큐에 클라이언트 소켓이 없으면 → 해당 클라이언트를 대기 큐에 넣고 페어 대기
+ * 대기 큐에 클라이언트 소켓이 있으면 → 클라이언트 두 개를 꺼내서 새로운 GameSession 쓰레드 시작
  */
 public class TTTServer {
     private ServerSocket serverSocket;
-    // “짝을 기다리는 클라이언트” 소켓 (최대 1개만 대기)
+    // 페어 대기 클라이언트 소켓 (최대 1개만 대기)
     private Socket waitingClient = null;
 
     public TTTServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
-        System.out.println("서버 시작: 포트 " + port);
+        System.out.println("멀티플레이어 틱택토 서버: 포트 " + port);
         acceptClients();
     }
 
     /**
      * 무한 루프로 클라이언트 연결을 수락하고,
-     * 두 명씩 묶어서 GameSession 생성
+     * 두 개씩 묶어서 GameSession 생성
      */
     private void acceptClients() {
         while (true) {
@@ -36,7 +36,7 @@ public class TTTServer {
                     // 1) 대기 클라이언트가 없는 경우 → 현재 클라이언트를 대기 상태로 보관
                     if (waitingClient == null) {
                         waitingClient = clientSocket;
-                        // (선택) 클라이언트에게 “짝 기다리는 중” 같은 메시지를 보낼 수 있음
+                        // 서버 콘솔에 대기 상태 메시지를 보냄
                         System.out.println("클라이언트를 대기 큐에 저장. 상대 클라이언트를 기다리는 중...");
                     }
                     // 2) 대기 클라이언트가 이미 있으면 → 두 개 묶어서 Session 생성
