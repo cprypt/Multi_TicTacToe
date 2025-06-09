@@ -56,18 +56,18 @@ public class GameSession implements Runnable {
                 String mv = receiveFrom(current);
                 int[] m = messageHandler.parseMove(mv);
                 if (!gameLogic.move(m[0], m[1], current)) {
-                    result = "Invalid move by player " + current;
+                    result = "유효하지 않은 선택: 클라이언트 " + current;
                     sendTo(current, messageHandler.formatResult(result));
                     break;
                 }
                 if (gameLogic.checkWinner()==current) {
-                    result = "Player " + current + " wins";
+                    result = "클라이언트 " + current + " 승리";
                     broadcast(messageHandler.formatBoard(gameLogic.getBoard()));
                     broadcast(messageHandler.formatResult(result));
                     break;
                 }
                 if (gameLogic.isDraw()) {
-                    result = "Draw";
+                    result = "무승부";
                     broadcast(messageHandler.formatBoard(gameLogic.getBoard()));
                     broadcast(messageHandler.formatResult(result));
                     break;

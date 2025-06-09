@@ -27,7 +27,7 @@ public class ServerConsole extends JFrame {
         JPanel clientsPanel = new JPanel(new BorderLayout());
         JList<String> clientsList = new JList<>(clientsModel);
         clientsPanel.add(new JScrollPane(clientsList), BorderLayout.CENTER);
-        JLabel clientsLabel = new JLabel("Connected Clients", SwingConstants.CENTER);
+        JLabel clientsLabel = new JLabel("연결 클라이언트", SwingConstants.CENTER);
         clientsLabel.setFont(clientsLabel.getFont().deriveFont(Font.BOLD));
         clientsPanel.add(clientsLabel, BorderLayout.SOUTH);
         add(clientsPanel);
@@ -36,7 +36,7 @@ public class ServerConsole extends JFrame {
         JPanel sessionsPanel = new JPanel(new BorderLayout());
         JList<String> sessionsList = new JList<>(sessionsModel);
         sessionsPanel.add(new JScrollPane(sessionsList), BorderLayout.CENTER);
-        JLabel sessionsLabel = new JLabel("Active Sessions", SwingConstants.CENTER);
+        JLabel sessionsLabel = new JLabel("활성 세션", SwingConstants.CENTER);
         sessionsLabel.setFont(sessionsLabel.getFont().deriveFont(Font.BOLD));
         sessionsPanel.add(sessionsLabel, BorderLayout.SOUTH);
         add(sessionsPanel);
