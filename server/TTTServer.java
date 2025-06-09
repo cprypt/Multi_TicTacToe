@@ -6,60 +6,59 @@ import java.net.Socket;
 
 /**
  * 다중 세션을 지원하는 TicTacToe 서버
- * 하나의 ServerSocket 으로 계속해서 접속 대기
- * 클라이언트가 접속할 때마다 대기 큐를 검사
- * 대기 큐에 클라이언트 소켓이 없으면 → 해당 클라이언트를 대기 큐에 넣고 페어 대기
- * 대기 큐에 클라이언트 소켓이 있으면 → 클라이언트 두 개를 꺼내서 새로운 GameSession 쓰레드 시작
+ * 하나의 ServerSocket으로 무한 대기
+ * 두 개씩 묶어 GameSession 쓰레드 생성
+ * ServerConsole로 상태 표시
  */
 public class TTTServer {
     private ServerSocket serverSocket;
-    // 페어 대기 클라이언트 소켓 (최대 1개만 대기)
-    private Socket waitingClient = null;
+    private Socket waitingClient = null;             // 페어 대기 클라이언트
+    private ServerConsole console;                   // 서버 관리 GUI 콘솔
+    private int nextSessionId = 1;                   // 세션 고유 ID
 
     public TTTServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
+        console = new ServerConsole();               // GUI 콘솔 띄우기
         System.out.println("멀티플레이어 틱택토 서버: 포트 " + port);
         acceptClients();
     }
 
-    /**
-     * 무한 루프로 클라이언트 연결을 수락하고,
-     * 두 개씩 묶어서 GameSession 생성
-     */
     private void acceptClients() {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("클라이언트 접속됨: " + clientSocket.getRemoteSocketAddress());
+                console.addWaiting(clientSocket);    // 대기 목록에 추가
 
                 synchronized (this) {
-                    // 1) 대기 클라이언트가 없는 경우 → 현재 클라이언트를 대기 상태로 보관
                     if (waitingClient == null) {
+                        // 첫 번째 플레이어 대기
                         waitingClient = clientSocket;
-                        // 서버 콘솔에 대기 상태 메시지를 보냄
-                        System.out.println("클라이언트를 대기 큐에 저장. 상대 클라이언트를 기다리는 중...");
-                    }
-                    // 2) 대기 클라이언트가 이미 있으면 → 두 개 묶어서 Session 생성
-                    else {
+                        System.out.println("상대 클라이언트를 기다리는 중...");
+                    } else {
+                        // 두 번째 플레이어와 매칭
                         Socket client1 = waitingClient;
                         Socket client2 = clientSocket;
-                        waitingClient = null;  // 대기 큐 비우기
+                        waitingClient = null;         // 대기 큐 비우기
+                        console.removeWaiting(client1);
 
-                        // 두 클라이언트를 묶어 GameSession 쓰레드 생성
-                        GameSession session = new GameSession(client1, client2);
-                        Thread sessionThread = new Thread(session);
-                        sessionThread.start();
-                        System.out.println("새로운 세션 시작: " +
-                                           client1.getRemoteSocketAddress() +
-                                           " vs " + client2.getRemoteSocketAddress());
+                        int sessionId = nextSessionId++;
+                        console.addSession(sessionId, client1, client2); // 세션 목록에 추가
+
+                        // GameSession 생성 (세션 ID, 두 소켓, 콘솔 전달)
+                        GameSession session = new GameSession(sessionId, client1, client2, console);
+                        new Thread(session, "Session-" + sessionId).start();
+                        System.out.println("새로운 세션 " + sessionId + " 시작: "
+                            + client1.getRemoteSocketAddress() + " vs " + client2.getRemoteSocketAddress());
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                break;  // 서버 소켓 예외 시 루프 탈출
+                break;
             }
         }
-        // 루프를 빠져나오면 ServerSocket 닫기
+
+        // 서버 종료 시 ServerSocket 닫기
         try {
             serverSocket.close();
         } catch (IOException ex) {
@@ -68,10 +67,7 @@ public class TTTServer {
     }
 
     public static void main(String[] args) {
-        int port = 5000;
-        if (args.length >= 1) {
-            port = Integer.parseInt(args[0]);
-        }
+        int port = args.length >= 1 ? Integer.parseInt(args[0]) : 5000;
         try {
             new TTTServer(port);
         } catch (IOException e) {
