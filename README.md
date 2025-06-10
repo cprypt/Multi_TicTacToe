@@ -2,7 +2,7 @@
 
 ## 프로젝트 구조
 - Client
-    - TTTClientGUI.java (GUI 기반 클라이언트, 메시지 처리)
+    - TTTClient.java (GUI 기반 클라이언트, 메시지 처리)
     - SocketClient.java (클라이언트-서버 소켓 통신, 메시지 송수신)
 - Server
     - TTTServer.java (쓰레드 세션 기반 서버, 대기 큐 처리)
