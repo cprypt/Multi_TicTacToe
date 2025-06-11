@@ -11,7 +11,12 @@
     - GameLogic.java (틱택토 게임 로직(보드 처리, 승패 판단))
     - MessageHandler.java (프로토콜 정의, 메시지 파싱)
 
-## 빌드 방법
+## 자동 빌드 방법
+1. UNIX
+2. Windows
+3. Linux
+
+## 수동 빌드 방법
 0. 필요 종속성
     - Git
     - Java
@@ -22,11 +27,11 @@
     - mkdir -p out
     - javac -d out server/\*.java client/\*.java
 3. Jar 파일 생성
-    - jar cvfm server.jar server-manifest.txt -C out server
-    - jar cvfm client.jar client-manifest.txt -C out client
+    - jar cvfm TTTServer.jar server-manifest.txt -C out server
+    - jar cvfm TTTClient.jar client-manifest.txt -C out client
 4. 서버/클라이언트 터미널 환경 실행
-    - java -jar server.jar
-    - java -jar client.jar
+    - java -jar TTTServer.jar
+    - java -jar TTTClient.jar
 
 ## 업데이트 내역
 1. 서버/클라이언트 -> CLI 구현
