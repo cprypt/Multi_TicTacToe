@@ -12,9 +12,8 @@
     - MessageHandler.java (프로토콜 정의, 메시지 파싱)
 
 ## 자동 빌드 방법
-1. UNIX
-2. Windows
-3. Linux
+1. UNIX/Linux: build_unix_linux.sh 실행 TTTServer.jar, TTTClient.jar 실행
+2. Windows: build_windows.bat 실행 후 TTTServer.jar, TTTClient.jar 실행
 
 ## 수동 빌드 방법
 0. 필요 종속성
