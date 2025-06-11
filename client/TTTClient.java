@@ -64,7 +64,7 @@ public class TTTClient extends JFrame {
         setVisible(true);
 
         // 6) 서버 메시지 수신용 쓰레드 시작
-        new Thread(this::receiveLoop).start();
+        new Thread(() -> receiveLoop()).start();
     }
 
     /**

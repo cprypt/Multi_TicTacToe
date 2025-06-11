@@ -16,9 +16,9 @@ public class TTTServer {
 
     public TTTServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
-        console = new ServerConsole();
+        SwingUtilities.invokeLater(() -> console = new ServerConsole());
         System.out.println("멀티플레이어 틱택토 서버 시작: 포트 " + port);
-        acceptClients();
+        new Thread(() -> acceptClients()).start();
     }
 
     private void acceptClients() {
