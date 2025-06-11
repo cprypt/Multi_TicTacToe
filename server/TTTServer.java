@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 public class TTTServer {
     private ServerSocket serverSocket;
     private Socket waitingClient = null;
@@ -14,7 +17,7 @@ public class TTTServer {
     public TTTServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         console = new ServerConsole();
-        System.out.println("서버 시작: 포트 " + port);
+        System.out.println("멀티플레이어 틱택토 서버 시작: 포트 " + port);
         acceptClients();
     }
 
@@ -51,7 +54,19 @@ public class TTTServer {
     }
 
     public static void main(String[] args) {
-        int port = args.length>0?Integer.parseInt(args[0]):5000;
-        try { new TTTServer(port); } catch (IOException e) { e.printStackTrace(); }
+        SwingUtilities.invokeLater(() -> {
+            String portStr = JOptionPane.showInputDialog(
+                null, "서버 Port:", "5000");
+            if (portStr == null) System.exit(0);
+            try {
+                int port = Integer.parseInt(portStr.trim());
+                new TTTServer(port);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                    null, "잘못된 Port: " + ex.getMessage(),
+                    "연결 에러", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
+        });
     }
 }

@@ -25,8 +25,8 @@
     - jar cvfm server.jar server-manifest.txt -C out server
     - jar cvfm client.jar client-manifest.txt -C out client
 4. 서버/클라이언트 터미널 환경 실행
-    - java -cp out server.TTTServer [포트번호]
-    - java -cp out client.TTTClient [서버호스트] [포트번호]
+    - java -jar server.jar
+    - java -jar client.jar
 
 ## 업데이트 내역
 1. 서버/클라이언트 -> CLI 구현

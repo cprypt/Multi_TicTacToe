@@ -195,22 +195,24 @@ public class TTTClient extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            String host = "localhost";
-            int port = 5000;
-            if (args.length >= 2) {
-                host = args[0];
-                port = Integer.parseInt(args[1]);
-            }
+            JTextField hostField = new JTextField("localhost");
+            JTextField portField = new JTextField("5000");
+            JPanel panel = new JPanel(new GridLayout(2,2));
+            panel.add(new JLabel("서버 IP:")); panel.add(hostField);
+            panel.add(new JLabel("Port:")); panel.add(portField);
+            int ok = JOptionPane.showConfirmDialog(
+                null, panel, "서버 연결",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (ok != JOptionPane.OK_OPTION) System.exit(0);
+            String host = hostField.getText().trim();
+            int port;
             try {
+                port = Integer.parseInt(portField.getText().trim());
                 new TTTClient(host, port);
             } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(
-                    null,
-                    "서버 연결 실패: " + ex.getMessage(),
-                    "오류",
-                    JOptionPane.ERROR_MESSAGE
-                );
+                JOptionPane.showMessageDialog(null,
+                    "잘못된 IP/Port: " + ex.getMessage(),
+                    "연결 에러", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
             }
         });
