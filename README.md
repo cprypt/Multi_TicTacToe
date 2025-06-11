@@ -11,24 +11,17 @@
     - GameLogic.java (틱택토 게임 로직(보드 처리, 승패 판단))
     - MessageHandler.java (프로토콜 정의, 메시지 파싱)
 
-## 자동 빌드 방법
-1. UNIX/Linux: build_unix_linux.sh 실행 후 TTTServer.jar, TTTClient.jar 실행
-2. Windows: build_windows.bat 실행 후 TTTServer.jar, TTTClient.jar 실행
-
-## 수동 빌드 방법
+## 빌드 방법
 0. 필요 종속성
     - Git
     - Java
 1. 프로젝트 클론
     - git clone https://github.com/cprypt/Multi_TicTacToe.git
     - cd Multi_TicTacToe
-2. 자바 소스 코드 컴파일
-    - mkdir -p out
-    - javac -d out server/\*.java client/\*.java
-3. Jar 파일 생성
-    - jar cvfm TTTServer.jar server-manifest.txt -C out server
-    - jar cvfm TTTClient.jar client-manifest.txt -C out client
-4. 서버/클라이언트 터미널 환경 실행
+2. 빌드 스크립트 실행
+    - (UNIX/Linux) sh build_unix_linux.sh
+    - (Windows) build_windows.bat
+3. 서버/클라이언트 실행
     - java -jar TTTServer.jar
     - java -jar TTTClient.jar
 
